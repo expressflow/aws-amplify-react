@@ -1,0 +1,20 @@
+type Type @model {
+  id: ID!
+  name: String!
+  products: [Product] @connection(keyName: "byType", fields: ["id"])
+}
+
+type Product @model @key(name: "byType", fields: ["typeID"]) {
+  id: ID!
+  name: String!
+  typeID: ID!
+  type: Type @connection(fields: ["typeID"])
+  articles: [Article] @connection(keyName: "byProduct", fields: ["id"])
+}
+
+type Article @model @key(name: "byProduct", fields: ["productID", "description"]) {
+  id: ID!
+  productID: ID!
+  product: Product @connection(fields: ["productID"])
+  description: String!
+}
